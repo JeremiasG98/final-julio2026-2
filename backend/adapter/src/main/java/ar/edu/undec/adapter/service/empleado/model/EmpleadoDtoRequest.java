@@ -1,4 +1,8 @@
 package ar.edu.undec.adapter.service.empleado.model;
 
-public record EmpleadoDtoRequest(String nombre, String legajo, String fechaIngreso, String puesto, double salario) {
+import pelicula.modelo.Puesto;
+
+import java.time.LocalDateTime;
+
+public record EmpleadoDtoRequest(String nombre, String legajo, LocalDateTime fechaIngreso, Puesto puesto, double salario) {
 }

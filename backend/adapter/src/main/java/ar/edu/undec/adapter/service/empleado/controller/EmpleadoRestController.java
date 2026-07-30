@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pelicula.input.IBuscarEmpleadoPorLegajoInput;
 import pelicula.input.ICrearEmpleadoInput;
 import pelicula.input.IObtenerEmpleadosInput;
+import pelicula.modelo.Empleado;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,14 +25,17 @@ public class EmpleadoRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EmpleadoDtoResponse crearEmpleado(@RequestBody EmpleadoDtoRequest request){
-        return mapper.toResponse(crearEmpleadoInput.ejecutar(request));
+        Empleado empleado = crearEmpleadoInput.ejecutar(request.nombre(),request.legajo(),request.fechaIngreso(),request.puesto(),request.salario());
+        return mapper.toResponse(empleado);
     }
     @GetMapping("/{id}")
-    public EmpleadoDtoResponse buscarEmpleadoPorLegajo (@PathVariable UUID id){
-        return mapper.toResponse(buscarEmpleadoPorLegajo.ejecutar(id.toString()));
+    public EmpleadoDtoResponse buscarEmpleadoPorLegajo (@PathVariable String legajo){
+        Empleado empleado = buscarEmpleadoPorLegajo(legajo).get();
+        return mapper.toResponse(empleado);
     }
     @GetMapping
     public List<EmpleadoDtoResponse> obtenerEmpleados(){
         return obtenerEmpleados.ejecutar().stream().map(mapper::toResponse).toList();
     }
+
 }
